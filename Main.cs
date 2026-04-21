@@ -4,55 +4,60 @@ class Program
 {
     static void Main()
     {
-        bool running = true;
-
-        while (running)
+        while (true)
         {
-            Console.Write("Podaj a (lub q aby zakonczyc): ");
-            string rawA = Console.ReadLine();
+            Console.Write("Podaj a (lub q aby wyjść): ");
+            string wejscieA = Console.ReadLine();
 
-            if (rawA.Equals("q", StringComparison.OrdinalIgnoreCase))
+            if (wejscieA == "q")
+                break;
+
+            int a;
+            if (!int.TryParse(wejscieA, out a))
             {
-                running = false;
+                Console.WriteLine("To nie jest liczba!");
                 continue;
             }
 
-            try
+            Console.Write("Podaj operator (+ - * /): ");
+            string oper = Console.ReadLine();
+
+            Console.Write("Podaj b: ");
+            int b;
+            if (!int.TryParse(Console.ReadLine(), out b))
             {
-                int a = Convert.ToInt32(rawA);
+                Console.WriteLine("To nie jest liczba!");
+                continue;
+            }
 
-                Console.Write("Podaj operator (+ - * /): ");
-                string oper = Console.ReadLine();
+            if (oper == "/" && b == 0)
+            {
+                Console.WriteLine("Nie dziel przez 0!");
+                continue;
+            }
 
-                Console.Write("Podaj b: ");
-                int b = Convert.ToInt32(Console.ReadLine());
+            int wynik = 0;
 
-                int wynik;
-
-                if (oper == "+")
+            switch (oper)
+            {
+                case "+":
                     wynik = a + b;
-                else if (oper == "-")
+                    break;
+                case "-":
                     wynik = a - b;
-                else if (oper == "*")
+                    break;
+                case "*":
                     wynik = a * b;
-                else if (oper == "/")
+                    break;
+                case "/":
                     wynik = a / b;
-                else
-                {
+                    break;
+                default:
                     Console.WriteLine("Nieznany operator!");
                     continue;
-                }
+            }
 
-                Console.WriteLine($"Wynik: {wynik}");
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Nie rzucaj wyjątku");
-            }
-            catch (DivideByZeroException)
-            {
-                Console.WriteLine("Nie dziel przez 0");
-            }
+            Console.WriteLine("Wynik: " + wynik);
         }
     }
 }
